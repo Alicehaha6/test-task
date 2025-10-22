@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
+//定义一个结构体来存储当前栈顶的需要打印的次数和打印的内容
 typedef struct{
     int nums;
     char content[128];
@@ -13,7 +14,8 @@ typedef struct{
 //2[abc]3[cd]ef
 //3[a2[b4[c]]]
 int main(void){
-    ITEM arr[32]={0};
+    //栈总item列表
+    ITEM arr[64]={0};
     //固定索引方向,模拟删除
     int outline_index=-1;
     //判断是否队列为空
@@ -41,18 +43,18 @@ int main(void){
             strncat(arr[outline_index].content,number_list+i,1);
         }
         if (number_list[i]==']'){
-            counter--;
-            if (counter==0){
+            counter--;//出栈
+            if (counter==0){//判断栈大小
                 for (int k=0;k<arr[pointer].nums;k++){
                     printf("%s",arr[pointer].content);
-                    fflush(stdout);
+                    fflush(stdout);//输出
                 }
-                pointer=outline_index;
+                pointer=outline_index;//栈为空，重置栈顶指针
             }else{
                 for (int j=0;j<arr[pointer].nums;j++){
-                    strcat(arr[pointer-1].content,arr[pointer].content);
+                    strcat(arr[pointer-1].content,arr[pointer].content);//给栈顶cat
                 }
-                pointer--;
+                pointer--;//出栈
             }
         }
     }
